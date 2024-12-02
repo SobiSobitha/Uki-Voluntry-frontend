@@ -1,0 +1,138 @@
+FeedbackPage.css
+.min-h-screen {
+  min-height: 100vh;
+}
+
+.p-8 {
+  padding: 2rem;
+}
+
+.flex {
+  display: flex;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.max-w-md {
+  max-width: 28rem;
+}
+
+.border-0 {
+  border: 0;
+}
+
+.shadow-lg {
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.text-3xl {
+  font-size: 1.875rem;
+}
+
+.font-bold {
+  font-weight: bold;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-lg {
+  font-size: 1.125rem;
+}
+
+.rounded-lg {
+  border-radius: 0.5rem;
+}
+
+.p-6 {
+  padding: 1.5rem;
+}
+
+.space-y-4 {
+  margin-bottom: 1rem;
+}
+
+.flex.justify-center.space-x-4 {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.text-4xl {
+  font-size: 2.25rem;
+}
+
+.hover\:scale-110:hover {
+  transform: scale(1.1);
+}
+
+.transition-transform {
+  transition: transform 0.3s ease;
+}
+
+.ring-2 {
+  box-shadow: 0 0 0 2px #E27D60;
+}
+
+.ring-offset-2 {
+  box-shadow: 0 0 0 2px #84A59D;
+}
+
+.text-center.font-medium {
+  font-weight: 500;
+}
+
+/* Updated textarea styling */
+.textarea {
+  min-height: 120px;
+  background-color: #F8F4E9;
+  border: 0;
+  color: #41436A;
+  font-size: 1rem;
+  padding: 1rem;
+  width: 100%;
+  resize: none;
+  overflow-y: hidden; /* Prevent vertical scrollbar */
+  transition: height 0.2s ease-in-out;
+}
+
+.textarea::placeholder {
+  color: #84A59D;
+}
+
+.w-full.text-lg.py-6 {
+  padding: 1.5rem 0;
+}
+
+.transition-all {
+  transition: all 0.3s ease;
+}
+
+.hover\:scale-105:hover {
+  transform: scale(1.05);
+}
+
+.alert {
+  margin-top: 1rem;
+  border: 0;
+  padding: 1rem;
+  background-color: #84A59D;
+  color: #F8F4E9;
+}
+
+.alert svg {
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.5rem;
+}

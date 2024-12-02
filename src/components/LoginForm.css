@@ -1,0 +1,148 @@
+
+
+/* Ensures the title and form are aligned */
+/* .login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50vh; 
+  background-color: #f3f6f9; 
+} */
+
+/* Box containing the form */
+.login-box {
+  background-color: #dae8e3;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 6px 6px rgba(0, 0, 0, 0.1);
+  width: 100%; /* Adjusted for responsiveness */
+  max-width: 3500px; /* Proper alignment for the box */
+  margin: 0 auto; /* Center the box horizontally */
+  position: relative;
+}
+/* Title of the login form */
+.login-title {
+  font-size: 24px;
+  color: #223D6C;
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  position: sticky;
+}
+
+/* Form styling */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+  height: 89%;
+}
+
+/* Input group styling */
+.input-group {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Label styling */
+.input-label {
+  font-size: 14px;
+  color: #223D6C;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+/* Input field styling */
+.input-field {
+  padding: 10px;
+  border: 1px solid #88B0A2;
+  border-radius: 4px;
+  font-size: 16px;
+  color: #223D6C;
+  outline: none;
+}
+
+/* Input field focus styling */
+.input-field:focus {
+  border-color: #E97451;
+  box-shadow: 0 0 5px rgba(233, 116, 81, 0.5);
+}
+
+/* Alert message styling */
+.alert {
+  background-color: #FFEBEB;
+  color: #D9534F;
+  padding: 10px;
+  border-radius: 4px;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+/* Submit button styling */
+/* Submit button styling */
+.login-button {
+  background-color: #E97451 !important; /* Use !important to ensure no other style overrides it */
+  color: #fff;
+  border: none;
+  padding: 12px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+/* Hover effect for the submit button */
+.login-button:hover {
+  background-color: #D76642 !important; /* Ensuring the hover effect color is coral */
+}
+
+/* Disabled button styling */
+.login-button:disabled {
+  background-color: #D1D1D1;
+  cursor: not-allowed;
+}
+
+
+/* Register section styling */
+.register-section {
+  text-align: center;
+  margin-top: 20px;
+  font-weight: bold;
+}
+
+/* Register link styling */
+.register-links {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  font-size: 14px;
+}
+
+.register-link {
+  color:#88B0A2;
+  text-decoration: none;
+  font-weight:bolder;
+  transition: color 0.3s ease;
+}
+
+.register-link:hover {
+  color: #223D6C;
+}
+
+.register-section p {
+  color: #223D6C;
+  font-size: 14px;
+}
+.message-box {
+  font-size: 0.9rem;
+  margin-top: 5px;
+  color: #ff6b6b; /* Red for error */
+}
+
+.message-box:contains("Passwords match ") {
+  color: #28a745; /* Green for success */
+}
+
