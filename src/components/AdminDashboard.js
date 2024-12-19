@@ -1,243 +1,261 @@
 'use client'
 
-import { useState, useEffect } from "react";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
-import { BarChart3, Users, Calendar, Settings, Bell, Search, Menu, ChevronDown, LogOut, User, Mail, MessageSquare, PlusCircle, FileText, LayoutDashboard, TrendingUp } from "lucide-react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
-import './AdminDashboard.css';
+import React, { useState } from 'react';
+import { Bell, ChevronDown, Home, Users, CreditCard, MessageSquare, Moon, Sun, Search, Menu, LogOut } from 'lucide-react'; // Import LogOut here
+import { useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
 
 export default function AdminDashboard() {
-  const [sidebarOpen, setSidebarOpen] = useState(true);
-  const [users, setUsers] = useState([]); 
-  const [loading, setLoading] = useState(false); 
-  const [showMessages, setShowMessages] = useState(false); 
-  const [messages, setMessages] = useState([ 
-    { id: '66f51110f106484838c17c04', sender: "Abhimanyu", content: "Hiiiiii....." },
-    { id: '66f508de5c41a030788b7f8e', sender: "VimalRaj", content: "Helloo,How we can join in this platform?" },
-    { id: '66f97767e6d667d9b9a8a1da', sender: "Shiva", content: "How we can contact you in social medias?" },
-  ]);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [darkMode, setDarkMode] = useState(true);
 
-  const navigate = useNavigate(); // Initialize the useNavigate hook
+  const navigate = useNavigate(); // Initialize navigate
 
-  // Handle logout and navigate to login page
-  const handleLogout = () => {
-    // You can also clear user data or tokens here if needed
-    navigate("/"); // Redirect to the login page
-  };
-
-  // Fetch all users from API
-  const fetchAllUsers = async () => {
-    setLoading(true); // Set loading state to true while fetching
-    try {
-      const response = await fetch('http://localhost:8001/api/users'); // Replace with your actual API endpoint
-      const data = await response.json();
-      setUsers(data); // Store fetched users in state
-    } catch (error) {
-      console.error("Error fetching users:", error);
-    } finally {
-      setLoading(false); // Set loading state to false after fetching
-    }
-  };
-
-  // Function to suspend a user
-  const suspendUser = async (userId) => {
-    try {
-      const response = await fetch(`http://localhost:8001/api/admin/suspend-user/${userId}`, {
-        method: 'POST', // Assuming you use POST to suspend a user
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      if (response.ok) {
-        // After successful suspension, refetch the users
-        fetchAllUsers();
-        alert('User suspended successfully');
-      } else {
-        alert('Failed to suspend user');
-      }
-    } catch (error) {
-      console.error("Error suspending user:", error);
-      alert('Error suspending user');
-    }
-  };
-
-  useEffect(() => {
-    fetchAllUsers(); // Fetch users when component mounts
-  }, []);
+  const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
+  const toggleDarkMode = () => setDarkMode(!darkMode);
 
   return (
-    <div className="admin-dashboard">
+    <div style={{
+      fontFamily: "'Inter', sans-serif",
+      backgroundColor: darkMode ? '#1a1a2e' : '#ffffff',
+      color: darkMode ? '#e0e0e0' : '#333333',
+      minHeight: '100vh',
+      display: 'flex',
+      flexDirection: 'column',
+    }}>
       {/* Header */}
-      <header className="header">
-        <div className="header-content">
-          <div className="header-left">
-            <button
-              onClick={() => setSidebarOpen(!sidebarOpen)}
-              className="menu-btn"
-            >
-              <Menu className="icon" />
-            </button>
-            <h1 className="title">Admin Dashboard</h1>
+      <header style={{
+        backgroundColor: darkMode ? '#16213e' : '#f0f0f0',
+        padding: '1rem',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+      }}>
+        <button onClick={toggleSidebar} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'inherit' }}>
+          <Menu size={24} />
+        </button>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            backgroundColor: darkMode ? '#2a2a3a' : '#ffffff',
+            borderRadius: '20px',
+            padding: '0.5rem 1rem',
+          }}>
+            <Search size={20} style={{ marginRight: '0.5rem' }} />
+            <input
+              type="text"
+              placeholder="Search..."
+              style={{
+                background: 'none',
+                border: 'none',
+                color: 'inherit',
+                outline: 'none',
+              }}
+            />
           </div>
-          <div className="header-right">
-            <div className="search-container">
-              <Search className="search-icon" />
-              <input
-                type="text"
-                placeholder="Search..."
-                className="search-input"
-              />
-            </div>
-            <button className="notification-btn">
-              <Bell className="icon" />
-              <span className="notification-badge" />
-            </button>
-            <div className="dropdown-menu">
-              <button className="account-btn">
-                <img
-                  src="/placeholder.svg?height=32&width=32"
-                  alt="Avatar"
-                  className="avatar"
-                />
-                <ChevronDown className="icon" />
-              </button>
-              <div className="dropdown-menu-content">
-                <div className="dropdown-menu-label">My Account</div>
-                <div className="dropdown-menu-separator" />
-                <div className="dropdown-menu-item">Profile</div>
-                <div className="dropdown-menu-item">Settings</div>
-                <div className="dropdown-menu-item text-red-600" onClick={handleLogout}>Logout</div>
-              </div>
-            </div>
+          <button onClick={toggleDarkMode} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'inherit' }}>
+            {darkMode ? <Sun size={24} /> : <Moon size={24} />}
+          </button>
+          <Bell size={24} style={{ cursor: 'pointer' }} />
+          <div style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
+            <img
+              src="https://i.pravatar.cc/40"
+              alt="User Avatar"
+              style={{ borderRadius: '50%', marginRight: '0.5rem' }}
+            />
+            <ChevronDown size={20} />
           </div>
         </div>
       </header>
 
-      <div className="content-wrapper">
+      <div style={{ display: 'flex', flex: 1 }}>
         {/* Sidebar */}
-        <aside className={`sidebar ${sidebarOpen ? "open" : "closed"}`}>
-          <nav className="sidebar-nav">
-            <button className="sidebar-btn" onClick={fetchAllUsers}>
-              <Users className="icon" />
-              All Users
-            </button>
-            {/* <button className="sidebar-btn">
-              <BarChart3 className="icon" />
-              Analytics
-            </button> */}
-            <button className="sidebar-btn" onClick={() => setShowMessages(!showMessages)}>
-              <MessageSquare className="icon" />
-              Messages
-            </button>
-            <button className="sidebar-btn">
-              <Settings className="icon" />
-              Settings
-            </button>
-            <button className="logout-btn" onClick={handleLogout}>
-              <LogOut className="icon" />
-              Logout
-            </button>
-          </nav>
-        </aside>
+        <nav style={{
+          width: sidebarOpen ? '250px' : '0',
+          backgroundColor: darkMode ? '#0f3460' : '#e0e0e0',
+          transition: 'width 0.3s ease',
+          overflow: 'hidden',
+          paddingBottom: '1rem', // To ensure the logout button is placed nicely
+        }}>
+          <ul style={{ listStyle: 'none', padding: '1rem' }}>
+            {[
+              { icon: <Home size={20} />, text: 'Dashboard' },
+              { icon: <Users size={20} />, text: 'Users' },
+              { icon: <MessageSquare size={20} />, text: 'Messages' },
+            ].map((item, index) => (
+              <li key={index} style={{
+                display: 'flex',
+                alignItems: 'center',
+                padding: '0.75rem',
+                marginBottom: '0.5rem',
+                borderRadius: '8px',
+                cursor: 'pointer',
+                transition: 'background-color 0.2s',
+                backgroundColor: index === 0 ? (darkMode ? '#1a1a2e' : '#d0d0d0') : 'transparent',
+              }}>
+                {item.icon}
+                <span style={{ marginLeft: '0.75rem' }}>{item.text}</span>
+              </li>
+            ))}
+          </ul>
+
+          {/* Logout Button */}
+          <button
+            style={{
+              background: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)',
+              border: 'none',
+              padding: '0.6rem 1.5rem',
+              borderRadius: '24px',
+              color: '#fff',
+              fontSize: '1.2rem',
+              cursor: 'pointer',
+              transition: 'transform 0.2s ease',
+              fontWeight: 'bold',
+              boxShadow: "0 10px 20px rgba(99, 102, 241, 0.5)",
+              marginTop: 'auto',
+              marginBottom: '1rem', // Added margin for spacing from other elements
+              alignItems:'center',
+              marginRight:'1rem',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = "scale(1.05)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = "scale(1)";
+            }}
+            onClick={() => navigate('/')} // Use navigate to redirect
+          >
+            <LogOut style={{ marginRight: '1rem' }} /> Logout
+          </button>
+        </nav>
 
         {/* Main Content */}
-        <main className="main-content">
-          {showMessages ? (
-            <div className="message-section">
-              <h2 className="section-title">Messages</h2>
-              <ul className="message-list">
-                {messages.map((message) => (
-                  <li key={message.id} className="message-item">
-                    <strong>{message.sender}:</strong> {message.content}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ) : (
-            <>
-              {/* Stats Grid */}
-              <div className="stats-grid">
-                {/* Stats Cards */}
-                <div className="stat-card">
-                  <div className="card-header">
-                    <h2 className="card-title">Total Users</h2>
-                    <Users className="icon stat-icon" />
-                  </div>
-                  <div className="card-content">
-                    <div className="stat-value">46</div>
-                    <p className="stat-info">+12% from this month</p>
-                  </div>
-                </div>
-                <div className="stat-card">
-                  <div className="card-header">
-                    <h2 className="card-title">Active Sessions</h2>
-                    <TrendingUp className="icon stat-icon" />
-                  </div>
-                  <div className="card-content">
-                    <div className="stat-value">0</div>
-                    <p className="stat-info">No Active Sessions</p>
-                  </div>
-                </div>
-                <div className="stat-card">
-                  <div className="card-header">
-                    <h2 className="card-title">Messages</h2>
-                    <Mail className="icon stat-icon" />
-                  </div>
-                  <div className="card-content">
-                    <div className="stat-value">6</div>
-                    <p className="stat-info">From this month</p>
-                  </div>
-                </div>
-                <div className="stat-card">
-                  <div className="card-header">
-                    <h2 className="card-title">Events</h2>
-                    <Calendar className="icon stat-icon" />
-                  </div>
-                  <div className="card-content">
-                    <div className="stat-value">6</div>
-                    <p className="stat-info">3 upcoming today</p>
-                  </div>
-                </div>
-              </div>
+        <main style={{ flex: 1, padding: '2rem', overflowY: 'auto' }}>
+          <h1 style={{
+            fontSize: '2rem',
+            marginBottom: '2rem',
+            color: darkMode ? '#e0e0e0' : '#333333',
+          }}>Dashboard Overview</h1>
 
-              {/* Users Table */}
-              <div className="user-card">
-                <div className="card-header">
-                  <h2 className="card-title">All Users</h2>
-                  {loading ? (
-                    <div>Loading...</div>
-                  ) : (
-                    <div className="card-content">
-                      <div className="user-scroll-area" style={{ overflowY: 'scroll', maxHeight: '350px' }}>
-                        <table>
-                          <thead>
-                            <tr>
-                              <th>Email</th>
-                              <th>Role</th>
-                              <th>Actions</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {users.map((user, index) => (
-                              <tr key={index}>
-                                <td>{user.email}</td>
-                                <td>{user.role}</td>
-                                <td>
-                                  <button onClick={() => suspendUser(user.id)} className="suspend-btn">
-                                    Suspend
-                                  </button>
-                                </td>
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                  )}
-                </div>
+          {/* Stats Section */}
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+            gap: '1rem',
+            marginBottom: '2rem',
+          }}>
+            {[
+              { title: 'Total Volunteers', value: '24', color: '#4e54c8' },
+              { title: 'Pending Organizers', value: '0', color: '#ff6b6b' },
+              { title: 'Engagement Rate', value: '20%', color: '#1abc9c' },
+            ].map((stat, index) => (
+              <div key={index} style={{
+                backgroundColor: darkMode ? '#16213e' : '#ffffff',
+                borderRadius: '8px',
+                padding: '1.5rem',
+                boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+                transition: 'transform 0.2s, box-shadow 0.2s',
+                cursor: 'pointer',
+                ':hover': {
+                  transform: 'translateY(-5px)',
+                  boxShadow: '0 6px 8px rgba(0, 0, 0, 0.15)',
+                },
+              }}>
+                <h3 style={{ fontSize: '1rem', marginBottom: '0.5rem', color: stat.color }}>{stat.title}</h3>
+                <p style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>{stat.value}</p>
               </div>
-            </>
-          )}
+            ))}
+          </div>
+
+          {/* Table Section */}
+          <div style={{
+            backgroundColor: darkMode ? '#16213e' : '#ffffff',
+            borderRadius: '8px',
+            padding: '1.5rem',
+            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+            marginBottom: '2rem',
+          }}>
+            <h2 style={{ fontSize: '1.5rem', marginBottom: '1rem', color: darkMode ? '#e0e0e0' : '#333333' }}>Recent Activities</h2>
+            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+              <thead>
+                <tr style={{ borderBottom: `1px solid ${darkMode ? '#2a2a3a' : '#e0e0e0'}` }}>
+                  <th style={{ textAlign: 'left', padding: '0.75rem', color: darkMode ? '#a0a0a0' : '#666666' }}>User</th>
+                  <th style={{ textAlign: 'left', padding: '0.75rem', color: darkMode ? '#a0a0a0' : '#666666' }}>Action</th>
+                  <th style={{ textAlign: 'left', padding: '0.75rem', color: darkMode ? '#a0a0a0' : '#666666' }}>Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  { user: 'Vaishu', action: 'Signed up', date: '2024-12-05' },
+                  { user: 'Jana', action: 'Joined as Volunteer', date: '2024-11-26' },
+                  { user: 'Abi', action: 'Signed up', date: '2024-11-12' },
+                ].map((activity, index) => (
+                  <tr key={index} style={{
+                    backgroundColor: index % 2 === 0 ? (darkMode ? '#1a1a2e' : '#f8f8f8') : 'transparent',
+                    transition: 'background-color 0.2s',
+                  }}>
+                    <td style={{ padding: '0.75rem' }}>{activity.user}</td>
+                    <td style={{ padding: '0.75rem' }}>{activity.action}</td>
+                    <td style={{ padding: '0.75rem' }}>{activity.date}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          {/* Messages Section */}
+          <div style={{
+            backgroundColor: darkMode ? '#16213e' : '#ffffff',
+            borderRadius: '8px',
+            padding: '1.5rem',
+            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+          }}>
+            <h2 style={{ fontSize: '1.5rem', marginBottom: '1rem', color: darkMode ? '#e0e0e0' : '#333333' }}>Recent Messages</h2>
+            <div style={{ maxHeight: '300px', overflowY: 'auto' }}>
+              {[
+                { user: 'Anu', message: 'Hey, I have a question about Event creation', time: '2 hours ago' },
+                { user: 'Kamal', message: 'Thanks for your help!', time: '1 day ago' },
+                { user: 'Abhimanyu', message: 'Can you please review my messages', time: '2 days ago' },
+              ].map((message, index) => (
+                <div key={index} style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  padding: '1rem',
+                  borderBottom: `1px solid ${darkMode ? '#2a2a3a' : '#e0e0e0'}`,
+                }}>
+                  <img
+                    src={`https://i.pravatar.cc/40?img=${index + 1}`}
+                    alt={message.user}
+                    style={{
+                      borderRadius: '50%',
+                      marginRight: '1rem',
+                    }}
+                  />
+                  <div style={{
+                    flex: 1,
+                    fontWeight: 'bold',
+                    color: darkMode ? '#e0e0e0' : '#333333',
+                  }}>
+                    {message.user}
+                    <p style={{
+                      fontSize: '0.875rem',
+                      color: darkMode ? '#a0a0a0' : '#666666',
+                      margin: '0.25rem 0 0',
+                    }}>
+                      {message.message}
+                    </p>
+                  </div>
+                  <span style={{
+                    fontSize: '0.875rem',
+                    color: darkMode ? '#a0a0a0' : '#666666',
+                  }}>
+                    {message.time}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
         </main>
       </div>
     </div>

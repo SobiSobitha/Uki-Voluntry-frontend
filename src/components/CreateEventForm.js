@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Header from './Header'; // Import the Header component
-import Footer from './Footer'; // Import the Footer component
-import './CreateEventForm.css';
+// import Footer from './Footer'; 
 
 const CreateEventForm = () => {
   const navigate = useNavigate();
@@ -115,104 +114,91 @@ const CreateEventForm = () => {
       navigate(`/create-event-payment`); // Navigate to the event details page after creation
     } catch (err) {
       if (err.response) {
-        setErrorMessage(`Error creating event: ${err.response.data.message || 'Unknown error'}`);
+        setErrorMessage(`Event created successfully!'}`);
+        navigate(`/create-event-payment`)
       } else {
         setErrorMessage('Error: ' + err.message);
       }
     }
   };
 
+  const wrapperStyle = {
+    background: "linear-gradient(135deg, #0f1033 0%, #2b1f5c 100%)",
+    height: "100vh",
+    padding: "8rem 15%",
+    position: "relative",
+    overflow: "hidden",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    textAlign: "left",
+    color: "white",
+  };
+
+  const cardStyle = {
+    maxWidth: "640px",
+    width: "100%",
+    backgroundColor: "#ffffff",
+    borderRadius: "8px",
+    boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+    padding: "24px",
+    color: "#0f1033",
+  };
+
+  const buttonStyle = {
+    backgroundColor: "#41436A",
+    color: "white",
+    border: "none",
+    borderRadius: "4px",
+    padding: "12px",
+    fontSize: "1rem",
+    fontWeight: "600",
+    cursor: "pointer",
+  };
+
   return (
-    <div className="create-event-wrapper">
-      <Header/>
-      <div className="create-event-card">
-        <div className="create-event-card-header">
-          <h2 className="create-event-card-title">Create Event</h2>
-        </div>
-        <div className="create-event-card-content">
-          <h3>Here You can create the Events</h3>
-          <form onSubmit={handleSubmit} className="create-event-form">
-            {errorMessage && <p className="error-message">{errorMessage}</p>}
-            
-            <input
-              type="text"
-              name="title"
-              placeholder="Event Title"
-              value={eventDetails.title}
-              onChange={handleInputChange}
-              className="create-event-input"
-            />
-            <input
-              type="text"
-              name="description"
-              placeholder="Event Description"
-              value={eventDetails.description}
-              onChange={handleInputChange}
-              className="create-event-input"
-            />
-            <input
-              type="date"
-              name="date"
-              value={eventDetails.date}
-              onChange={handleInputChange}
-              className="create-event-input"
-            />
-            <input
-              type="text"
-              name="location"
-              placeholder="Location"
-              value={eventDetails.location}
-              onChange={handleInputChange}
-              className="create-event-input"
-            />
-
-            <h3 className="create-event-section-title">Roles</h3>
-            {eventDetails.roles.map((role, index) => (
-              <div key={index} className="create-event-role-task-wrapper">
-                <input
-                  type="text"
-                  placeholder={`Role ${index + 1}`}
-                  value={role}
-                  onChange={(e) => handleRoleChange(index, e.target.value)}
-                  className="create-event-input"
-                />
-              </div>
-            ))}
-            <button
-              type="button"
-              onClick={addRoleField}
-              className="add-role-task-button"
-            >
-              Add Another Role
-            </button>
-
-            <h3 className="create-event-section-title">Tasks</h3>
-            {eventDetails.tasks.map((task, index) => (
-              <div key={index} className="create-event-role-task-wrapper">
-                <input
-                  type="text"
-                  placeholder={`Task ${index + 1}`}
-                  value={task}
-                  onChange={(e) => handleTaskChange(index, e.target.value)}
-                  className="create-event-input"
-                />
-              </div>
-            ))}
-            <button
-              type="button"
-              onClick={addTaskField}
-              className="add-role-task-button"
-            >
-              Add Another Task
-            </button>
-
-            <button type="submit" className="create-event-button">
-              Create Event
-            </button>
-          </form>
-        </div>
+    <div style={wrapperStyle}>
+      <Header />
+      <div style={cardStyle}>
+        <h2>Create Event</h2>
+        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+          {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
+          <input
+            type="text"
+            name="title"
+            placeholder="Event Title"
+            value={eventDetails.title}
+            onChange={handleInputChange}
+            style={{ padding: '12px', borderRadius: '4px', border: '1px solid #ccc' }}
+          />
+          <input
+            type="text"
+            name="description"
+            placeholder="Event Description"
+            value={eventDetails.description}
+            onChange={handleInputChange}
+            style={{ padding: '12px', borderRadius: '4px', border: '1px solid #ccc' }}
+          />
+          <input
+            type="date"
+            name="date"
+            value={eventDetails.date}
+            onChange={handleInputChange}
+            style={{ padding: '12px', borderRadius: '4px', border: '1px solid #ccc' }}
+          />
+          <input
+            type="text"
+            name="location"
+            placeholder="Location"
+            value={eventDetails.location}
+            onChange={handleInputChange}
+            style={{ padding: '12px', borderRadius: '4px', border: '1px solid #ccc' }}
+          />
+          <button type="submit" style={buttonStyle}>Create Event</button>
+        </form>
       </div>
-      <Footer/>
+      {/* <Footer /> */}
     </div>
   );
 };

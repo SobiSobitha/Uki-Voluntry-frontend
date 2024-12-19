@@ -1,213 +1,198 @@
-'use client'
+import React, { useState } from "react";
 
-import { useEffect, useState } from 'react'
-import { Bell, Calendar, CheckSquare, LogOut, User } from 'lucide-react'
-import { useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
-import './VolunteerDashboard.css'; // Importing the external CSS file
+const DashboardPage = () => {
+  const [events, setEvents] = useState([
+    {
+      id: "1",
+      name: "Summer Sports Meet",
+      date: "2024-06-15",
+      sport: "Table Tennis",
+      applied: false,
+    },
+    {
+      id: "2",
+      name: "Chess Championship",
+      date: "2024-06-20",
+      sport: "Chess",
+      applied: false,
+    },
+    {
+      id: "3",
+      name: "Badminton Tournament",
+      date: "2024-07-01",
+      sport: "Badminton",
+      applied: false,
+    },
+  ]);
 
-export default function VolunteerDashboard() {
-  const [upcomingEvents, setUpcomingEvents] = useState([])
-  const [currentTasks, setCurrentTasks] = useState([])
-  const [pastEvents, setPastEvents] = useState([])
-  const [notifications, setNotifications] = useState([])
-  const [volunteerName, setVolunteerName] = useState('')
-  const navigate = useNavigate(); // Initialize useNavigate for navigation
+  const handleApply = (eventId) => {
+    setEvents(
+      events.map((event) =>
+        event.id === eventId ? { ...event, applied: true } : event
+      )
+    );
+  };
 
-  useEffect(() => {
-    const fetchVolunteerDetails = async () => {
-      try {
-        const response = await fetch('http://localhost:8001/api/volunteer/details')
-        const data = await response.json()
-        setVolunteerName(data.name)
-      } catch (error) {
-        console.error('Error fetching volunteer details:', error)
-      }
-    }
-
-    const fetchUpcomingEvents = async () => {
-      try {
-        const response = await fetch('http://localhost:8001/api/volunteer/upcoming-events')
-        const data = await response.json()
-        setUpcomingEvents(data)
-      } catch (error) {
-        console.error('Error fetching upcoming events:', error)
-      }
-    }
-
-    const fetchCurrentTasks = async () => {
-      try {
-        const response = await fetch('http://localhost:8001/api/volunteer/current-tasks')
-        const data = await response.json()
-        setCurrentTasks(data)
-      } catch (error) {
-        console.error('Error fetching current tasks:', error)
-      }
-    }
-
-    const fetchPastEvents = async () => {
-      try {
-        const response = await fetch('http://localhost:8001/api/volunteer/past-events')
-        const data = await response.json()
-        setPastEvents(data)
-      } catch (error) {
-        console.error('Error fetching past events:', error)
-      }
-    }
-
-    const fetchNotifications = async () => {
-      try {
-        const response = await fetch('http://localhost:8001/api/volunteer/notifications')
-        const data = await response.json()
-        setNotifications(data)
-      } catch (error) {
-        console.error('Error fetching notifications:', error)
-      }
-    }
-
-    fetchVolunteerDetails()
-    fetchUpcomingEvents()
-    fetchCurrentTasks()
-    fetchPastEvents()
-    fetchNotifications()
-  }, [])
-
-  const handleLogout = () => {
-    // Add logout logic here (if needed)
-    alert("Logging out...")
-    navigate('/') // Navigate to the home page
-  }
-
-  const handleLeaveFeedback = (eventId) => {
-    // Navigate to feedback page for the selected event
-    navigate(`/feedback/:eventId`) // Assuming the feedback page accepts an event ID as a query parameter
-  }
-
-  const handleViewOpportunities = () => {
-    navigate('/events') // Navigate to the events page
-  }
+  const totalEvents = events.length;
+  const appliedEvents = events.filter((e) => e.applied).length;
+  const activeStatus = true;
 
   return (
-    <div className="dashboard-container">
-      <div className="dashboard-content">
-        <div className="header">
-          <div className="header-left">
-            {/* <div className="avatar-container">
-              <img src="/untitled design.png?height=50&width=50" alt={volunteerName} className="avatar-image" />
-              <span className="avatar-fallback">{volunteerName.charAt(0)}</span>
-            </div> */}
-            <div>
-              <h1 className="header-title">Welcome, {volunteerName || 'Volunteer'}!</h1>
-              <p className="header-subtitle">Volunteer Dashboard</p>
-            </div>
-          </div>
-          <button onClick={handleLogout} className="logout-btn">
-            <LogOut className="mr-2 h-4 w-4" /> Logout
-          </button>
+    <div
+      style={{
+        minHeight: "100vh",
+        background: "linear-gradient(to bottom, #2F314B, #223D6C)",
+        color: "#F1EEDB",
+        fontFamily: "Arial, sans-serif",
+        position: "relative",
+        overflow: "hidden",
+      }}
+    >
+      {/* Background Video */}
+      <video
+        autoPlay
+        loop
+        muted
+        style={{
+          position: "absolute",
+          top: "0",
+          left: "0",
+          width: "100%",
+          height: "100%",
+          objectFit: "cover",
+          zIndex: "-1",
+        }}
+      >
+        <source src="/1001376547.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+
+      <header
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          padding: "1rem 2rem",
+          backgroundColor: "#2F314B",
+          borderBottom: "1px solid #88B0A2",
+        }}
+      >
+        <h1 style={{ fontSize: "1.5rem", fontWeight: "bold" }}>Volunteer Dashboard</h1>
+        <button style={styles.button}>Logout</button>
+      </header>
+
+      <main style={{ padding: "2rem" }}>
+        <section
+          style={{
+            textAlign: "center",
+            padding: "3rem",
+            background: "linear-gradient(to right, #4F46E5, #88B0A2)",
+            borderRadius: "10px",
+            marginBottom: "2rem",
+            color: "#FFFFFF",
+          }}
+        >
+          <h2 style={{ fontSize: "2rem", marginBottom: "1rem" }}>Welcome to Your Dashboard</h2>
+          <p>Manage your volunteer events and track your progress.</p>
+        </section>
+
+        <div
+          style={{
+            display: "grid",
+            gap: "1rem",
+            gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+          }}
+        >
+          <Card title="Total Events" value={totalEvents} />
+          <Card title="Applied Events" value={appliedEvents} />
+          <Card title="Volunteer Status" value={activeStatus ? "Active" : "Inactive"} />
         </div>
 
-        <div className="tabs-container">
-          <div className="tabs-list">
-            <button>Upcoming Events</button>
-            <button>Current Tasks</button>
-            <button>Past Events</button>
-            <button>Notifications</button>
-          </div>
-          <div className="tabs-content">
-            {/* Upcoming Events */}
-            <div>
-              <div className="card-header">
-                <h2 className="flex items-center">
-                  <Calendar className="mr-2" style={{ color: '#E27D60' }} />
-                  Upcoming Events
-                </h2>
-              </div>
-              <div className="card-content">
-                <ul className="space-y-2">
-                  {upcomingEvents.map(event => (
-                    <li key={event.id} className="card-item">
-                      <span>{event.title}</span>
-                      <span className="text-sm">{event.date} | {event.location}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-
-            {/* Current Tasks */}
-            <div>
-              <div className="card-header">
-                <h2 className="flex items-center">
-                  <CheckSquare className="mr-2" style={{ color: '#E27D60' }} />
-                  Current Tasks
-                </h2>
-              </div>
-              <div className="card-content">
-                <ul className="space-y-2">
-                  {currentTasks.map(task => (
-                    <li key={task.id} className="card-item">
-                      <span>{task.task}</span>
-                      <span className="text-sm">Status: {task.status}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-
-            {/* Past Events */}
-            <div>
-              <div className="card-header">
-                <h2 className="flex items-center">
-                  <Calendar className="mr-2" style={{ color: '#E27D60' }} />
-                  Past Events
-                </h2>
-              </div>
-              <div className="card-content">
-                <ul className="space-y-2">
-                  {pastEvents.map(event => (
-                    <li key={event.id} className="card-item">
-                      <span>{event.title}</span>
-                      <button 
-                        style={{ color: '#E27D60' }} 
-                        onClick={() => handleLeaveFeedback(event.id)}
+        <div style={{ marginTop: "2rem" }}>
+          <div
+            style={{
+              background: "#223D6C",
+              borderRadius: "8px",
+              padding: "1.5rem",
+              boxShadow: "0 4px 10px rgba(0, 0, 0, 0.3)",
+            }}
+          >
+            <h2 style={{ marginBottom: "1rem" }}>Active Events</h2>
+            <table style={styles.table}>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Date</th>
+                  <th>Sport</th>
+                  <th style={{ textAlign: "right" }}>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {events.map((event) => (
+                  <tr key={event.id}>
+                    <td>{event.name}</td>
+                    <td>{new Date(event.date).toLocaleDateString()}</td>
+                    <td>{event.sport}</td>
+                    <td style={{ textAlign: "right" }}>
+                      <button
+                        style={event.applied ? styles.buttonSecondary : styles.button}
+                        onClick={() => handleApply(event.id)}
+                        disabled={event.applied}
                       >
-                        Leave Feedback
+                        {event.applied ? "Applied" : "Apply"}
                       </button>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-
-            {/* Notifications */}
-            <div>
-              <div className="card-header">
-                <h2 className="flex items-center">
-                  <Bell className="mr-2" style={{ color: '#E27D60' }} />
-                  Notifications
-                </h2>
-              </div>
-              <div className="card-content">
-                <ul className="space-y-2">
-                  {notifications.map((notification, index) => (
-                    <li key={index} className="card-item">
-                      {notification.message}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
-
-        <div className="flex justify-center space-x-4">
-          <button className="tabs-button" onClick={handleViewOpportunities}>
-            View Available Opportunities
-          </button>
-          <button className="profile-button">
-            <User className="mr-2 h-4 w-4" /> Edit Profile
-          </button>
-        </div>
-      </div>
+      </main>
     </div>
-  )
-}
+  );
+};
+
+const Card = ({ title, value }) => (
+  <div
+    style={{
+      background: "linear-gradient(to bottom, #4F46E5, #82B6A9)",
+      borderRadius: "8px",
+      padding: "1.5rem",
+      textAlign: "center",
+      color: "#FFFFFF",
+      boxShadow: "0 2px 5px rgba(0, 0, 0, 0.2)",
+    }}
+  >
+    <h3 style={{ fontSize: "1rem", marginBottom: "0.5rem" }}>{title}</h3>
+    <div style={{ fontSize: "1.5rem", fontWeight: "bold" }}>{value}</div>
+  </div>
+);
+
+const styles = {
+  button: {
+    backgroundColor: "#4F46E5",
+    color: "#FFFFFF",
+    padding: "0.5rem 1rem",
+    border: "none",
+    borderRadius: "4px",
+    cursor: "pointer",
+    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
+  },
+  buttonSecondary: {
+    backgroundColor: "#6B7280",
+    color: "#D1D5DB",
+    padding: "0.5rem 1rem",
+    border: "none",
+    borderRadius: "4px",
+    cursor: "not-allowed",
+  },
+  table: {
+    width: "100%",
+    borderCollapse: "collapse",
+    marginTop: "1rem",
+    color: "#FFFFFF",
+  },
+};
+
+export default DashboardPage;
